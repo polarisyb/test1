@@ -1,18 +1,20 @@
 'use client'
 
-import React from 'react'
-import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import React from 'react';
+import { create } from 'zustand';
 
 const useStore1 = create((set) => ({
+  // 변수
   BookCount: 0,
   CardCount: 0,
-  DecreaseBookCount() {
+
+  // 함수
+  DecreaseBookCount: () => {
     set((state) => ({
       BookCount: state.BookCount - 1
     }));
   },
-  IncreaseCardCount() {
+  IncreaseCardCount: () => {
     set((state) => ({
       CardCount: state.CardCount + 2
     }));
@@ -20,20 +22,24 @@ const useStore1 = create((set) => ({
 }));
 
 const useStore2 = create((set) => ({
+  // 변수
   PenCount: 0,
-  IncreasePenCount() {
+
+  // 함수
+  IncreasePenCount: () => {
     set((state) => ({
       PenCount: state.PenCount + 1
     }));
   },
-  DecreasePenCount() {
+  DecreasePenCount: () => {
     set((state) => ({
-      PenCount: state.PenCoutn - 1
+      PenCount: state.PenCount - 1
     }));
   },
 }));
 
-function Book() {
+const Book = () =>  {
+  // 구조 분해 할당을 통해 가져오는 방법
   const {BookCount, DecreaseBookCount} = useStore1();
   return (
     <>
@@ -47,10 +53,11 @@ function Book() {
         Book -1
       </button>
     </>
-  )
+  );
 };
 
-function Card() {
+const Card = () => {
+  // 구조 분해 할당을 통해 가져오는 방법
   const {CardCount, IncreaseCardCount} = useStore1();
   return (
     <>
@@ -64,10 +71,10 @@ function Card() {
         Card + 2
       </button>
     </>
-  )
+  );
 };
 
-function Pen() {
+const Pen = () => {
   const {PenCount, IncreasePenCount, DecreasePenCount} = useStore2();
   return (
     <>
@@ -79,8 +86,15 @@ function Pen() {
       }} style={{width: '100px', height: '50px'}}>
         Pen + 1
       </button>
+      <br/>
+      <button onClick={() => {
+        DecreasePenCount();
+        console.log(`PenCount : ${PenCount}`);
+      }} style={{width: '100px', height: '50px'}}>
+        Pen - 1
+      </button>
     </>
-  )
+  );
 };
 
 const page = () => {
